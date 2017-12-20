@@ -1,4 +1,4 @@
-h5 local    h5 local(non-pt-sel)   hsds
+h5 local(non-pt-sel)    h5 local  hsds
    0.000       0.000       0.000
    0.000       0.120       0.010
    0.000       0.550       0.010
