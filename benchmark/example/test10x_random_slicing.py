@@ -62,10 +62,6 @@ nGenes, nCells = ds_local.shape
 # f_remote.close()
      
 
-#h5pyd returns the flattened 1d array
-#fortunately there is cheap way to reshape it
-# vals2.shape = (nX, nY)
-# np.array_equal(vals1, vals2)
 
 f_remote = h5pyd.File("/home/wjiang2/10x", "r")#bug in h5pyd: mode r is still writable
 ds_remote = f_remote["/data"]
@@ -81,12 +77,11 @@ cells = genes = [10,50,100,500,1000,5000,10000][0:2]
 
 res = np.zeros((2, len(cells)))
 for i,size in enumerate(cells): 
+    print(size)
     #generate random idx for x and y
     idx1 = sorted(sample(range(nGenes), size))
     idx2 = sorted(sample(range(nCells), size))
-#     coord = list(zip(idx1, idx2))
     #read local
-    
     t1 = time.perf_counter()
     vals1 = bm.random_slicing_local(ds_local, idx1, idx2)
     res[0,i] = time.perf_counter() - t1
@@ -107,7 +102,7 @@ for i,size in enumerate(cells):
 # plot the timing results
 #===============================================================================
 df = pd.DataFrame(res.transpose(), columns = ['h5 local' ,'hsds'], index = [(str(i) + '*' + str(i)) for i in cells])
-df.to_csv()
+df.to_csv("pt_sel.csv")
 df.plot(style = '.-')
 plt.yscale("log")
 plt.xlabel("size of rectangular subset")

@@ -1,8 +1,27 @@
 #import h5py
 #import h5pyd
 import numpy as np
-
-def point_select_local(ds, coord, data):
+def region_selection_hybrid(ds_gene, ds_cell, gidx, cidx):
+    """random region selection from local H5 (2d)
+        Args:
+            ds_r (h5py._hl.dataset.Dataset): source dataset object (chunked by row)
+            ds_r (h5py._hl.dataset.Dataset): source dataset object (chunked by column)
+            ridx (tuple): start and end index for row
+            cidx (tuple): start and end index for column  
+        Returns:
+            numpy.ndarray:  2d array
+    """
+    ngene, ncell = ds_gene.shape
+    gstart, gend = gidx
+    cstart, cend = cidx
+    if (gend - gstart) / (cend - cstart) > ngene/ncell:
+        data = ds_gene[gstart:gend, cstart:cend]
+    else:
+        data = ds_cell[cstart:cend, gstart:gend]
+        data = data.transpose()
+    return data
+  
+def point_select_local(ds, coord):
     """random point selection from local H5 (2d) by point coordinates
         Args:
             ds (h5py._hl.dataset.Dataset): source dataset object
