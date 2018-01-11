@@ -83,11 +83,12 @@ for i,size in enumerate(cells):
 #===============================================================================
 # plot the timing results
 #===============================================================================
-df = pd.DataFrame(res.transpose(), columns = ['h5 local', 'hsds'], index = cells)
+xbrks = ['$' + str(i) + '^2$' for i in cells]
+df = pd.DataFrame(res.transpose(), columns = ['h5 local', 'hsds'], index = xbrks)
 df.to_csv("region_sel.csv")
 df = pd.read_csv("region_sel.csv", index_col = 0)
 df.plot(style = '.-')
 plt.yscale("log")
 plt.xlabel("size of rectangular subset")
 plt.ylabel("Time (s)")
-plt.title("rectangular region selection")
+plt.title("continuous region selection")

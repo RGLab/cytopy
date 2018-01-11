@@ -12,11 +12,12 @@ from h5pyd._apps.hsdel import deleteDomain
 #===============================================================================
 # access local H5
 #===============================================================================
-f_local = h5py.File("/home/wjiang2/rglab/workspace/cytopy/tests/examples/test.nc", "r")
+f_local = h5py.File("/home/wjiang2/rglab/workspace/cytopy/benchmark/data/test.h5", "r")
 ds_local = f_local["/28"]
 ds_local.shape
+ds_local.chunks
 nChannel, nCells = ds_local.shape
-
+f_local.libver
 def read_local(ds_local, idx1, idx2, isPointSelection = True):
     """random slicing local H5 (2d)
         ds_local h5py._hl.dataset.Dataset
